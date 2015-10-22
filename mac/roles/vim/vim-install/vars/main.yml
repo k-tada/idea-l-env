@@ -1,0 +1,14 @@
+vim_requires:
+  - gcc
+  - git
+  - mercurial
+  - ncurses-devel
+  - lua
+  - lua-devel
+  - perl
+  - perl-devel
+  - perl-ExtUtils-Embed
+  - python
+  - python-devel
+
+vim_configures: --enable-multibyte --with-features=huge --disable-selinux --prefix=/usr/local --enable-luainterp=yes --with-lua-prefix=/usr --enable-perlinterp=yes --enable-rubyinterp=yes --enable-pythoninterp=yes --with-python-config-dir=/usr/lib/python2.6/config

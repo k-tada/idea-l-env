@@ -1,0 +1,18 @@
+- name: requires install
+  sudo: true
+  yum: name={{ item }} state=present
+  with_items:
+    - "{{ vim_requires }}"
+
+- stat: path=/usr/local/src/vim
+  register: vimdir
+
+- name: hg clone vim
+  sudo: true
+  shell: hg clone https://vim.googlecode.com/hg/ vim chdir=/usr/local/src
+  when: vimdir.stat.exists == False or vimdir.stat.isdir == False
+
+- name: install vim
+  sudo: true
+  shell: ./configure {{ vim_configures }} && make && make install chdir=/usr/local/src/vim
+

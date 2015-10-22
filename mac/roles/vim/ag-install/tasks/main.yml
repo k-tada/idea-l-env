@@ -1,0 +1,17 @@
+# - name: Development Tools install
+#   sudo: true
+#   yum: name="@Development tools" state=present
+#
+- name: requires install
+  sudo: true
+  yum: name={{ item }} state=present
+  with_items:
+    - "{{ ag_requires }}"
+
+- name: git clone the_silver_searcher
+  sudo: true
+  git: repo=git://github.com/ggreer/the_silver_searcher.git dest=/usr/local/src/the_silver_searcher accept_hostkey=yes
+
+- name: install ag
+  sudo: true
+  shell: ./build.sh && make install chdir=/usr/local/src/the_silver_searcher

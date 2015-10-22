@@ -1,0 +1,36 @@
+- name: git clone dotfiles
+  git: repo=https://github.com/k-tada/dotfiles.git dest=/home/vagrant/dotfiles accept_hostkey=yes
+
+- name: git submodule init
+  shell: git submodule init chdir=/home/vagrant/dotfiles
+
+- name: git submodule foreach
+  shell: git submodule foreach 'git pull origin master' chdir=/home/vagrant/dotfiles
+
+- name: git submodule update
+  shell: git submodule update chdir=/home/vagrant/dotfiles
+
+- stat: path=~/.vim
+  register: vimlink
+
+- name: make links
+  shell: ln -s dotfiles/.vim . chdir=~/
+  when: vimlink.stat.exists == False
+
+- stat: path=~/.vimrc
+  register: vimrclink
+
+- name: make links
+  shell: ln -s dotfiles/.vimrc . chdir=~/
+  when: vimrclink.stat.exists == False
+
+- stat: path=~/.gvimrc
+  register: gvimrclink
+
+- name: make links
+  shell: ln -s dotfiles/.gvimrc . chdir=~/
+  when: gvimrclink.stat.exists == False
+
+- name: do NeoBundleInstall
+  shell: vim -u ~/.vimrc -i NONE -c "try | NeoBundleInstall! | finally | q! | endtry" -e -s -V1
+  ignore_errors: yes

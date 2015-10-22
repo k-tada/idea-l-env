@@ -1,0 +1,4 @@
+- name: make vimproc
+  sudo: false
+  shell: make -f make_unix.mak chdir=~/dotfiles/.vim/bundle/vimproc.vim/
+

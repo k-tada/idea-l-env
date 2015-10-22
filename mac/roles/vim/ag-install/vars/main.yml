@@ -1,0 +1,3 @@
+ag_requires:
+  - pcre-devel
+  - xz-devel
